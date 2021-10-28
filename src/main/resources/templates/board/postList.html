@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Spring Board List</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>제목</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="post : ${posts}">
+            <td th:text="${post.id}"></td>
+            <td>
+              <a
+                th:href="@{'/board/' + ${post.id}}"
+                th:text="${post.title}"
+              ></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
