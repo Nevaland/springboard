@@ -12,4 +12,5 @@ public interface PostRepository {
     List<Post> findAll();
 
     Optional<Post> remove(Long id);
+    Optional<Post> update(Long id, Post post);
 }

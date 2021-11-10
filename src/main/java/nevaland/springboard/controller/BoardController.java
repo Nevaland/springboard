@@ -59,4 +59,20 @@ public class BoardController {
         postService.delete(id);
         return "redirect:/board";
     }
+
+    @GetMapping("/board/edit")
+    public String editPostForm(@RequestParam Long id, Model model) {
+        Optional<Post> post = postService.findOne(id);
+        model.addAttribute("post", post.orElseThrow(() -> new NoSuchElementException()));
+        return "board/editPost";
+    }
+
+    @PostMapping("/board/edit")
+    public String editPost(@RequestParam Long id, PostForm postForm) {
+        Post post = new Post();
+        post.setTitle(postForm.getTitle());
+        post.setContent(postForm.getContent());
+        postService.edit(id, post);
+        return "redirect:/board";
+    }
 }

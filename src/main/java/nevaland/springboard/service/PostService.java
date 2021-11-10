@@ -38,9 +38,16 @@ public class PostService {
     }
 
     /**
-     *  Delete post
+     *  Delete the post
      */
     public Optional<Post> delete(Long postId) {
         return postRepository.remove(postId);
+    }
+
+    /**
+     *  Edit the post
+     */
+    public Optional<Post> edit(Long postId, Post post) {
+        return postRepository.update(postId, post);
     }
 }

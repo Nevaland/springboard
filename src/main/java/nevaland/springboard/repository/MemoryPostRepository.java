@@ -37,4 +37,17 @@ public class MemoryPostRepository implements PostRepository {
     public Optional<Post> remove(Long id) {
         return Optional.ofNullable(store.remove(id));
     }
+
+    @Override
+    public Optional<Post> update(Long id, Post post) {
+        if (store.containsKey(id)) {
+            Post originPost = store.get(id);
+            originPost.setTitle(post.getTitle());
+            originPost.setContent(post.getContent());
+            store.put(id, originPost);
+            return Optional.of(originPost);
+        } else {
+            return Optional.empty();
+        }
+    }
 }
