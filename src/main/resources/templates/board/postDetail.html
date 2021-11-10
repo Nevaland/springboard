@@ -18,8 +18,6 @@
 
     <div>
       <button th:onclick="'location.href=\'' + @{'/board/edit?id=' + ${post.id}} + '\''">Edit</button>
-    </div>
-    <div>
       <button th:onclick="'location.href=\'' + @{'/board/delete?id=' + ${post.id}} + '\''">Delete</button>
     </div>
   </body>

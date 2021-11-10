@@ -50,8 +50,8 @@ public class BoardController {
         Post post = new Post();
         post.setTitle(postForm.getTitle());
         post.setContent(postForm.getContent());
-        postService.write(post);
-        return "redirect:/board";
+        Long postId = postService.write(post);
+        return "redirect:/board/post?id=" + postId;
     }
 
     @GetMapping("/board/delete")
@@ -73,6 +73,6 @@ public class BoardController {
         post.setTitle(postForm.getTitle());
         post.setContent(postForm.getContent());
         postService.edit(id, post);
-        return "redirect:/board";
+        return "redirect:/board/post?id=" + id;
     }
 }
