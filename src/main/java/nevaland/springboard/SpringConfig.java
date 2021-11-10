@@ -10,16 +10,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringConfig {
 
-    private final PostRepository postRepository;
+//    private final PostRepository postRepository;
 
-    @Autowired
-    public SpringConfig(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+//    @Autowired
+//    public SpringConfig(PostRepository postRepository) {
+//        this.postRepository = postRepository;
+//    }
 
     @Bean
     public PostService postService() {
-        return new PostService(postRepository);
+        return new PostService(postRepository());
     }
 
     @Bean
