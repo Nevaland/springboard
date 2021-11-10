@@ -53,4 +53,10 @@ public class BoardController {
         postService.write(post);
         return "redirect:/board";
     }
+
+    @GetMapping("/board/delete")
+    public String deletePost(@RequestParam Long id) {
+        postService.delete(id);
+        return "redirect:/board";
+    }
 }

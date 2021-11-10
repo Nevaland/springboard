@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <title th:text="${post.title}"></title>
@@ -15,5 +15,9 @@
 
     <h1 th:text="${post.title}"></h1>
     <p th:text="${post.content}"></p>
+
+    <div>
+      <button th:onclick="'location.href=\'/board/delete?id=' + @{${post.id}} + '\''">Delete</button>
+    </div>
   </body>
 </html>
