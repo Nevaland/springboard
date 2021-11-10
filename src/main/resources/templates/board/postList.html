@@ -25,7 +25,7 @@
             <td th:text="${post.id}"></td>
             <td>
               <a
-                th:href="@{'/board/' + ${post.id}}"
+                th:href="@{'/board/post?id=' + ${post.id}}"
                 th:text="${post.title}"
               ></a>
             </td>

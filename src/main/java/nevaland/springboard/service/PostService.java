@@ -22,7 +22,8 @@ public class PostService {
      *  Write the post
      */
     public Long write(Post post) {
-        return null;
+        Post newPost = postRepository.save(post);
+        return newPost.getId();
     }
 
     /**
