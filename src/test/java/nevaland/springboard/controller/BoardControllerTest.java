@@ -8,15 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -28,14 +27,14 @@ class BoardControllerTest {
     @Test
     public void entry_points_test() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/board"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/board"));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/board"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(status().isOk());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/board/write"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -52,43 +51,43 @@ class BoardControllerTest {
                         .contentType(APPLICATION_FORM_URLENCODED)
                         .param("title", title)
                         .param("content", content))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/board/post?id=" + id));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/board/post?id=" + id));
 
         // See post in list and detail
         mockMvc.perform(MockMvcRequestBuilders.get("/board"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(title)));
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(title)));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/board/post?id=" + id))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(title)))
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(content)));
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(title)))
+                .andExpect(content().string(containsString(content)));
 
         // Edit post and Redirect changed detail
         mockMvc.perform(MockMvcRequestBuilders.get("/board/edit?id=" + id))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(title)))
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(content)));
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(title)))
+                .andExpect(content().string(containsString(content)));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/board/edit?id=" + id)
                         .contentType(APPLICATION_FORM_URLENCODED)
                         .param("title", editedTitle)
                         .param("content", editedContent))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/board/post?id=" + id));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/board/post?id=" + id));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/board/post?id=" + id))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(editedTitle)))
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(editedContent)));
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(editedTitle)))
+                .andExpect(content().string(containsString(editedContent)));
 
         // Delete post and Redirect board
         mockMvc.perform(MockMvcRequestBuilders.get("/board/delete?id=" + id))
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/board"));
+                .andExpect(redirectedUrl("/board"));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/board"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.not(Matchers.containsString(editedTitle))));
+                .andExpect(status().isOk())
+                .andExpect(content().string(not(containsString(editedTitle))));
     }
 }
